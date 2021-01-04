@@ -1,17 +1,25 @@
 const SHA256 = require('crypto-js/sha256')
 
+
+class Transaction{
+  constructor(from, to, amount) {
+    this.from = from
+    this.to = to
+    this.amount = amount
+  }
+}
+
 class Block {
-  constructor(index, timestamp, data, previousHash = '') {
-    this.index = index
+  constructor(timestamp, transactions, previousHash = '') {
     this.timestamp = timestamp
-    this.data = data
+    this.transactions = transactions
     this.previousHash = previousHash
     this.hash = this.calculateHash()
     this.nonce = 0
   }
 
   calculateHash() {
-    return SHA256(this.index + this.previousHash + this.timestamp + JSON.stringify(this.data) + this.nonce).toString()
+    return SHA256(this.previousHash + this.timestamp + JSON.stringify(this.transactions) + this.nonce).toString()
   }
 
   mineBlock(difficulty) {
@@ -30,7 +38,7 @@ class Blockchain {
   }
 
   createGenesisBlock() {
-    return new Block(0, "01/01/2021", "Genesis Block", "0")
+    return new Block("01/01/2021", "Genesis Block", "0")
   }
 
   getLatestBlock() {
@@ -62,9 +70,3 @@ class Blockchain {
 }
 
 let grayCoin = new Blockchain()
-
-console.log("Mining block 1...")
-grayCoin.addBlock(new Block(1, "03/01/2021", { sender: "Sean gray", recipient: "Peter Gray", amount: 4 }))
-
-console.log("Mining block 2...")
-grayCoin.addBlock(new Block(2, "04/01/2021", { sender: "Kevin gray", recipient: "Myles Gray", amount: 10 }))
