@@ -3,8 +3,8 @@ const SHA256 = require('crypto-js/sha256')
 
 class Transaction{
   constructor(fromAddress, toAddress, amount) {
-    this.fromAddress = from
-    this.toAddress = to
+    this.fromAddress = fromAddress
+    this.toAddress = toAddress
     this.amount = amount
   }
 }
@@ -104,4 +104,5 @@ class Blockchain {
   }
 }
 
-let grayCoin = new Blockchain()
+module.export.Blockchain = Blockchain
+module.export.Transaction = Transaction
